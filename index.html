@@ -36,10 +36,43 @@
             border-bottom: 1px solid #eee;
             padding-bottom: 20px;
         }
-        .scenario-title {
-            font-size: 20px;
+        .tabs-header {
+            display: flex;
+            gap: 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            flex-wrap: wrap;
+        }
+        .tab-button {
+            padding: 14px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .tab-button:hover {
+            color: #0066cc;
+            background: #f9f9f9;
+        }
+        .tab-button.active {
+            color: #0066cc;
+            border-bottom-color: #0066cc;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .section-title {
+            font-size: 18px;
             font-weight: 600;
-            margin: 40px 0 25px 0;
+            margin-bottom: 20px;
             color: #333;
             border-left: 4px solid #0066cc;
             padding-left: 15px;
@@ -93,16 +126,12 @@
             padding-left: 8px;
         }
         .conversation {
-            margin: 30px 0;
-            padding: 20px;
-            background: #fafafa;
-            border-radius: 8px;
-            border-left: 3px solid #ccc;
+            margin: 20px 0;
         }
         .divider {
             height: 1px;
             background: #ddd;
-            margin: 25px 0;
+            margin: 15px 0;
         }
         .key-points {
             background: #f0f7ff;
@@ -134,243 +163,281 @@
             color: #0066cc;
             font-weight: bold;
         }
-        .section-title {
-            font-size: 18px;
+        .initial-flow-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .scenario-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #0066cc;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
-            margin: 35px 0 20px 0;
-            color: #333;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>📱 Text Qualification Conversation Template</h1>
-        <div class="subtitle">Full message flows from lead response through booking confirmation</div>
+        <div class="subtitle">Complete message flows from lead response through booking confirmation</div>
 
         <!-- INITIAL FLOW -->
-        <div class="section-title">Initial Flow (Lead chooses text over call)</div>
-        
-        <div class="conversation">
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 1 (Immediate - within 5 min)</div>
-                <div class="message-content">Hey LEAD, it's VANAME from XYZ, saw you filled out one of our forms (Time: YESTERDAY), would love to chat about your roofing needs if you are open in the next 5 minutes, if not I have some time later today, let me know if that works, or we can also chat here over text if that's more convenient.</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Yeah text works better for me right now</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 2 (All qualifying questions)</div>
-                <div class="message-content">Hey LEAD! Perfect. Quick questions so I know if we're a good fit - how old is your roof? Have you noticed any damage like missing shingles or leaks? And do you want to get this done before summer?</div>
+        <div class="initial-flow-section">
+            <div class="section-title">Initial Flow (Same for all scenarios)</div>
+            <div class="conversation">
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 1 (Immediate - within 5 min)</div>
+                    <div class="message-content">Hey LEAD, it's VANAME from XYZ, saw you filled out one of our forms (Time: YESTERDAY), would love to chat about your roofing needs if you are open in the next 5 minutes, if not I have some time later today, let me know if that works, or we can also chat here over text if that's more convenient.</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">Yeah text works better for me right now</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 2 (All qualifying questions)</div>
+                    <div class="message-content">Hey LEAD! Perfect. Quick questions so I know if we're a good fit - how old is your roof? Have you noticed any damage like missing shingles or leaks? And do you want to get this done before summer?</div>
+                </div>
             </div>
         </div>
 
+        <!-- TABS -->
+        <div class="tabs-header">
+            <button class="tab-button active" onclick="openTab(event, 'scenario-a')">
+                Scenario A: Damage + Summer
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'scenario-b')">
+                Scenario B: Age + No Damage
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'scenario-c')">
+                Scenario C: Not Qualified
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'scenario-d')">
+                Scenario D: Damage + Hesitant
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'scenario-e')">
+                Scenario E: Vague Lead
+            </button>
+        </div>
+
         <!-- SCENARIO A -->
-        <div class="scenario-title">SCENARIO A: Qualified Lead (Damage + Summer Deadline)</div>
-        
-        <div class="conversation">
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">My roof is about 18 years old, yeah I noticed some missing shingles on the back side, and ideally before summer yeah</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 3 (Ask for damage details)</div>
-                <div class="message-content">Got it, thanks for that. Can you describe what you're seeing with those missing shingles? Like how many spots are we talking, or is it pretty significant?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Yeah it's like a section maybe 10-15 shingles missing, and I think I saw a little water stain inside last week</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 4 (Confirm urgency + move to booking)</div>
-                <div class="message-content">Okay that's something we need to address pretty quick then. Good news is our inspector can come out and give you a full inspection + quote to get this handled before the weather gets worse. What works better for you - sometime this week or next week?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">This week would be better</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 5 (Lock in timeframe)</div>
-                <div class="message-content">Perfect! Does Tuesday or Wednesday work, or are you better Thursday/Friday? Once you let me know I'll get you locked in and send you the exact time tomorrow morning.</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Wednesday works</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 6 (Confirm + get phone)</div>
-                <div class="message-content">Awesome LEAD! Wednesday it is. What's the best number to reach you to confirm the exact time in the morning?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">It's 555-0147</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 7 (Close)</div>
-                <div class="message-content">Got it, thanks! You're all set for Wednesday. Our inspector will text you the time in the morning. Looking forward to helping you out. Talk soon!</div>
+        <div id="scenario-a" class="tab-content active">
+            <div class="scenario-badge">✓ QUALIFIED LEAD - BOOK THIS WEEK</div>
+            <div class="section-title">Scenario A: Qualified Lead (Damage + Summer Deadline)</div>
+            <div class="conversation">
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response to Message 2</div>
+                    <div class="message-content">My roof is about 18 years old, yeah I noticed some missing shingles on the back side, and ideally before summer yeah</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 3 (Ask for damage details)</div>
+                    <div class="message-content">Got it, thanks for that. Can you describe what you're seeing with those missing shingles? Like how many spots are we talking, or is it pretty significant?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">Yeah it's like a section maybe 10-15 shingles missing, and I think I saw a little water stain inside last week</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 4 (Confirm urgency + move to booking)</div>
+                    <div class="message-content">Okay that's something we need to address pretty quick then. Good news is our inspector can come out and give you a full inspection + quote to get this handled before the weather gets worse. What works better for you - sometime this week or next week?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">This week would be better</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 5 (Lock in timeframe)</div>
+                    <div class="message-content">Perfect! Does Tuesday or Wednesday work, or are you better Thursday/Friday? Once you let me know I'll get you locked in and send you the exact time tomorrow morning.</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">Wednesday works</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 6 (Confirm + get phone)</div>
+                    <div class="message-content">Awesome LEAD! Wednesday it is. What's the best number to reach you to confirm the exact time in the morning?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">It's 555-0147</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 7 (Close)</div>
+                    <div class="message-content">Got it, thanks! You're all set for Wednesday. Our inspector will text you the time in the morning. Looking forward to helping you out. Talk soon!</div>
+                </div>
             </div>
         </div>
 
         <!-- SCENARIO B -->
-        <div class="scenario-title">SCENARIO B: Qualified Lead (Age + No Damage + Summer Deadline)</div>
-        
-        <div class="conversation">
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Roof is about 16 years old, no damage that I can see, but yeah I want to get it replaced before summer</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 3 (Confirm + move to booking)</div>
-                <div class="message-content">Perfect, that's exactly the window we like to work in. At 16 years, you're at that point where replacement makes sense. Let's get you booked for an inspection so our guy can give you a full quote. What works better for you - this week or next week?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Next week is better</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 4 (Lock in timeframe)</div>
-                <div class="message-content">Got it. Do any days next week work better than others? Like Monday/Tuesday or later in the week?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Monday or Tuesday is good</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 5 (Confirm + get phone)</div>
-                <div class="message-content">Awesome! Monday or Tuesday next week it is. What's the best number to reach you so I can send you the exact time?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">555-0147</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 6 (Close)</div>
-                <div class="message-content">Perfect LEAD, you're all set. Our inspector will text you the exact time Monday morning. Thanks for being proactive about this - we'll take great care of you!</div>
+        <div id="scenario-b" class="tab-content">
+            <div class="scenario-badge">✓ QUALIFIED LEAD - BOOK NEXT WEEK</div>
+            <div class="section-title">Scenario B: Qualified Lead (Age + No Damage + Summer Deadline)</div>
+            <div class="conversation">
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response to Message 2</div>
+                    <div class="message-content">Roof is about 16 years old, no damage that I can see, but yeah I want to get it replaced before summer</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 3 (Confirm + move to booking)</div>
+                    <div class="message-content">Perfect, that's exactly the window we like to work in. At 16 years, you're at that point where replacement makes sense. Let's get you booked for an inspection so our guy can give you a full quote. What works better for you - this week or next week?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">Next week is better</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 4 (Lock in timeframe)</div>
+                    <div class="message-content">Got it. Do any days next week work better than others? Like Monday/Tuesday or later in the week?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">Monday or Tuesday is good</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 5 (Confirm + get phone)</div>
+                    <div class="message-content">Awesome! Monday or Tuesday next week it is. What's the best number to reach you so I can send you the exact time?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">555-0147</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 6 (Close)</div>
+                    <div class="message-content">Perfect LEAD, you're all set. Our inspector will text you the exact time Monday morning. Thanks for being proactive about this - we'll take great care of you!</div>
+                </div>
             </div>
         </div>
 
         <!-- SCENARIO C -->
-        <div class="scenario-title">SCENARIO C: Not Qualified Yet (Roof too new + no urgency)</div>
-        
-        <div class="conversation">
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Roof is about 10 years old, no damage, and honestly not sure about summer yet</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 3 (Soft close + keep door open)</div>
-                <div class="message-content">Got it, that makes sense. At 10 years you're still in good shape - most roofs last 15-20, so you've got some time. When you get closer to that replacement window or notice anything, just shoot us a text and I'll get you booked right away. Sound good?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Yeah sounds good, thanks</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 4 (Final touch)</div>
-                <div class="message-content">Perfect! Save our number - we're here whenever you need us. Have a great day!</div>
+        <div id="scenario-c" class="tab-content">
+            <div class="scenario-badge">✗ NOT QUALIFIED - KEEP DOOR OPEN</div>
+            <div class="section-title">Scenario C: Not Qualified Yet (Roof too new + no urgency)</div>
+            <div class="conversation">
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response to Message 2</div>
+                    <div class="message-content">Roof is about 10 years old, no damage, and honestly not sure about summer yet</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 3 (Soft close + keep door open)</div>
+                    <div class="message-content">Got it, that makes sense. At 10 years you're still in good shape - most roofs last 15-20, so you've got some time. When you get closer to that replacement window or notice anything, just shoot us a text and I'll get you booked right away. Sound good?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">Yeah sounds good, thanks</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 4 (Final touch)</div>
+                    <div class="message-content">Perfect! Save our number - we're here whenever you need us. Have a great day!</div>
+                </div>
             </div>
         </div>
 
         <!-- SCENARIO D -->
-        <div class="scenario-title">SCENARIO D: Qualified Lead (Age + Damage but hesitant on timeline)</div>
-        
-        <div class="conversation">
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Yeah it's 17 years old, I see some wear but I'm not sure about summer, might be later in the year</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 3 (Qualify damage + explore timeline)</div>
-                <div class="message-content">Got it. Can you describe what kind of wear you're seeing? And just curious - if we got you a quote this week, would that help you figure out if summer is doable or if later works better?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Some curling shingles and maybe one spot with a leak. Yeah getting a quote would help</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 4 (Move to booking)</div>
-                <div class="message-content">Perfect. That's exactly what we need to address. Our inspector can come out and give you a full quote - that way you'll know exactly what you're working with for your budget and timeline. This week or next week better?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">This week</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 5 (Lock in)</div>
-                <div class="message-content">Great! Tuesday/Wednesday or Thursday/Friday work better for you?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Thursday</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 6 (Confirm + phone)</div>
-                <div class="message-content">Awesome! Thursday is locked in. What's the best number to text you the exact time?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">555-0147</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 7 (Close)</div>
-                <div class="message-content">Perfect LEAD, you're all set for Thursday! Our inspector will text you the exact time in the morning. Talk soon!</div>
+        <div id="scenario-d" class="tab-content">
+            <div class="scenario-badge">✓ QUALIFIED LEAD - NEEDS QUOTE TO DECIDE</div>
+            <div class="section-title">Scenario D: Qualified Lead (Age + Damage but hesitant on timeline)</div>
+            <div class="conversation">
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response to Message 2</div>
+                    <div class="message-content">Yeah it's 17 years old, I see some wear but I'm not sure about summer, might be later in the year</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 3 (Qualify damage + explore timeline)</div>
+                    <div class="message-content">Got it. Can you describe what kind of wear you're seeing? And just curious - if we got you a quote this week, would that help you figure out if summer is doable or if later works better?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">Some curling shingles and maybe one spot with a leak. Yeah getting a quote would help</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 4 (Move to booking)</div>
+                    <div class="message-content">Perfect. That's exactly what we need to address. Our inspector can come out and give you a full quote - that way you'll know exactly what you're working with for your budget and timeline. This week or next week better?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">This week</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 5 (Lock in)</div>
+                    <div class="message-content">Great! Tuesday/Wednesday or Thursday/Friday work better for you?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">Thursday</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 6 (Confirm + phone)</div>
+                    <div class="message-content">Awesome! Thursday is locked in. What's the best number to text you the exact time?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">555-0147</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 7 (Close)</div>
+                    <div class="message-content">Perfect LEAD, you're all set for Thursday! Our inspector will text you the exact time in the morning. Talk soon!</div>
+                </div>
             </div>
         </div>
 
         <!-- SCENARIO E -->
-        <div class="scenario-title">SCENARIO E: Lead Gets Vague / Doesn't Answer Fully</div>
-        
-        <div class="conversation">
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Um idk, maybe 12 years? And not really sure about the damage thing</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Message 3 (Clarify + offer call)</div>
-                <div class="message-content">No worries! Just to get a clearer picture - when you look at your roof from the ground or if you've been up there, do you see any spots that look worn or are there any leaks inside? Honestly, easier to just give you a quick call - takes 30 seconds and I can walk you through it. You around?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block lead-message">
-                <div class="message-label">Lead Response</div>
-                <div class="message-content">Yeah sure, call me</div>
-            </div>
-            <div class="divider"></div>
-            <div class="message-block va-message">
-                <div class="message-label">VA Next Step</div>
-                <div class="message-content">Switch to phone call - use your regular call script from here</div>
+        <div id="scenario-e" class="tab-content">
+            <div class="scenario-badge">⚠️ VAGUE RESPONSE - SWITCH TO CALL</div>
+            <div class="section-title">Scenario E: Lead Gets Vague / Doesn't Answer Fully</div>
+            <div class="conversation">
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response to Message 2</div>
+                    <div class="message-content">Um idk, maybe 12 years? And not really sure about the damage thing</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Message 3 (Clarify + offer call)</div>
+                    <div class="message-content">No worries! Just to get a clearer picture - when you look at your roof from the ground or if you've been up there, do you see any spots that look worn or are there any leaks inside? Honestly, easier to just give you a quick call - takes 30 seconds and I can walk you through it. You around?</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block lead-message">
+                    <div class="message-label">Lead Response</div>
+                    <div class="message-content">Yeah sure, call me</div>
+                </div>
+                <div class="divider"></div>
+                <div class="message-block va-message">
+                    <div class="message-label">VA Next Step</div>
+                    <div class="message-content">Switch to phone call - use your regular call script from here</div>
+                </div>
             </div>
         </div>
 
@@ -387,5 +454,25 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab content
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+
+            // Remove active class from all buttons
+            const tabButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+
+            // Show the current tab and mark button as active
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
 </body>
 </html>
